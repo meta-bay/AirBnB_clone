@@ -3,6 +3,7 @@ import unittest
 from models.base_model import BaseModel
 ''' Unit test module '''
 
+
 class TestBaseModel(unittest.TestCase):
     ''' test the base model module '''
     def setUp(self):
@@ -20,6 +21,7 @@ class TestBaseModel(unittest.TestCase):
     def test_time(self):
         ''' tests the datetime '''
         self.assertNotEqual(self.model1.created_at, self.model2.updated_at)
+
 
 if __name__ == "__main__":
     unittest.main()
