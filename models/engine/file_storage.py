@@ -11,7 +11,7 @@ class FileStorage():
     serializes instances to a JSON file and 
     deserializes JSON file to instances
     '''
-    __file_path = 'storage.json'
+    __file_path = 'file.json'
     __objects = {}
     def all(self):
         ''' returns the dictionary __objects '''
@@ -29,16 +29,28 @@ class FileStorage():
         '''
         with open(self.__file_path, "w") as file:
             obj_to_dict = {key: value.to_dict() for key, value in self.__objects.items()}
-            file.write(json.dumps(obj_to_dict))
+            json.dump(obj_dict, file)
 
     def reload(self):
         '''
             deserializes the JSON file to __objects
         '''
-        if not os.path.isfile(type(self).__file_path):
+        if not os.path.isfile(FileStorage.__file_path):
             return
-        with open(self.__file_path, 'r') as file:
+        with open(self.__file_path, 'r', encoding="utf-8") as file:
             obj_dict = json.load(file)
-            for key, val in obj_dict.items():
-                type(self).__objects[key] = val["__class__"]
-                
+            FileStorage.__objects = {key: self.extract_class(val["__class__"])(**val) for key, val in obj_dict.items()}
+
+    def extract_class(self, name=None):
+        ''' extracts the class from the dictionary'''
+        from models.base_model import BaseModel
+
+        if not name:
+            return
+        classes = {
+            "BaseModel": BaseModel
+        }
+        try:
+            return classes[name]
+        except Exception:
+            pass
