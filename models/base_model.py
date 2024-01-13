@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 ''' base model module'''
+
+
 import uuid
 from datetime import datetime
 from datetime import timedelta
@@ -22,6 +24,7 @@ class BaseModel():
             self.updated_at = datetime.now()
 
     def __str__(self):
+        ''' prints the string representation of the object '''
         return "[{}] ({}) {}".format(
             __class__.__name__, self.id, self.__dict__)
 
