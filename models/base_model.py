@@ -1,14 +1,17 @@
 #!/usr/bin/python3
-''' base model module'''
+''' 
+    base model module
+'''
 
 
 import uuid
+from models import storage
 from datetime import datetime
-from datetime import timedelta
 
 
 class BaseModel():
     ''' Base model class '''
+
     def __init__(self, *args, **kwargs):
         ''' initializes the object '''
         if kwargs:
@@ -22,15 +25,17 @@ class BaseModel():
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+            storage.new(self)
 
     def __str__(self):
-        ''' prints the string representation of the object '''
+        ''' string representation of the object '''
         return "[{}] ({}) {}".format(
             __class__.__name__, self.id, self.__dict__)
 
     def save(self):
         ''' saves the time '''
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         ''' to dictionary '''
