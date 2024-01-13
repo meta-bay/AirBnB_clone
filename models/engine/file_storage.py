@@ -19,13 +19,15 @@ class FileStorage():
     def new(self, obj):
         ''' creates object dictionary '''
         key = f"{obj.__class__.__name__}.{obj.id}"
-        the_objs = {key: obj}
-        self.__objects.update(the_objs)
+        the_objs_dict = {key: obj}
+        self.__objects.update(the_objs_dict)
 
     def save(self):
         ''' to json '''
         with open(self.__file_path, "w") as file:
-            obj_dict = {key: val.to_dict() for key, val in self.__objects.items()}
+            obj_dict = {
+                key: val.to_dict() for key, val in self.__objects.items()
+            }
             json.dump(obj_dict, file)
 
     def reload(self):
@@ -36,8 +38,9 @@ class FileStorage():
             return
         with open(self.__file_path, 'r', encoding="utf-8") as file:
             obj_dict = json.load(file)
-            FileStorage.__objects = {key: self.extract_class
-            (val["__class__"])(**val) for key, val in obj_dict.items()
+            FileStorage.__objects = {
+                key: self.extract_class(val["__class__"])
+                (**val) for key, val in obj_dict.items()
             }
 
     def extract_class(self, name=None):
