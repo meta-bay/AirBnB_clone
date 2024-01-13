@@ -3,8 +3,6 @@
 import uuid
 from datetime import datetime
 from datetime import timedelta
-""" from models.engine.file_storage import FileStorage
-from models.__init__ import storage """
 
 
 class BaseModel():
@@ -22,7 +20,6 @@ class BaseModel():
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            """ storage.new(self) """
 
     def __str__(self):
         return "[{}] ({}) {}".format(
@@ -31,7 +28,6 @@ class BaseModel():
     def save(self):
         ''' saves the time '''
         self.updated_at = datetime.now()
-        """ storage.save() """
 
     def to_dict(self):
         ''' to dictionary '''
