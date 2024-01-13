@@ -35,7 +35,7 @@ class FileStorage():
         '''
             deserializes the JSON file to __objects
         '''
-        if os.path.exists(type(self).__file_path):
+        if os.path.exists(self.__file_path):
             with open(self.__file_path, 'r') as file:
                 obj_dict = json.loads(file.read())
                 type(self).__objects = {key: value["__class__"] for key, value in obj_dict.items()}
