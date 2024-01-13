@@ -1,10 +1,10 @@
 #!/usr/bin/python3
+''' base model module'''
 import uuid
 from models.engine.file_storage import FileStorage
 from models.__init__ import storage
 from datetime import datetime
 from datetime import timedelta
-''' base model module'''
 
 
 class BaseModel():

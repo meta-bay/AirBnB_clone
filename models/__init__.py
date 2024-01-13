@@ -1,5 +1,6 @@
-from models.engine.file_storage import FileStorage
 ''' The init '''
+from models.engine.file_storage import FileStorage
+
 
 
 storage = FileStorage()
