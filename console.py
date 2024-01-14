@@ -130,13 +130,13 @@ class HBNBCommand(cmd.Cmd):
             return
         args = arg.split()
 
-        if len(args) < 2:
+        if len(args) < 2 or not args[1]:
             print("** instance id missing **")
             return
-        if len(args) < 3:
+        if len(args) < 3 or not args[2]:
             print("** attribute name missing **")
             return
-        if len(args) < 4:
+        if len(args) < 4 or not args[3]:
             print("** value missing **")
             return
 
@@ -197,7 +197,7 @@ class HBNBCommand(cmd.Cmd):
                     count += 1
             print(count)
         elif '.' in arg and 'show(' in arg and ')' in arg:
-            class_name, instance_id = self.extract_class_and_id(arg)
+            class_name, instance_id = self.extract_args(arg)
             instance_id = instance_id.strip("'").strip('"')
             key = f"{class_name}.{instance_id}"
 
@@ -206,7 +206,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
         elif '.' in arg and 'destroy(' in arg and ')' in arg:
-            class_name, instance_id = self.extract_class_and_id(arg)
+            class_name, instance_id = self.extract_args(arg)
             instance_id = instance_id.strip("'").strip('"')
             key = f"{class_name}.{instance_id}"
 
@@ -215,14 +215,23 @@ class HBNBCommand(cmd.Cmd):
                 storage.save()
             else:
                 print("** no instance found **")
+        elif '.' in arg and 'update(' in arg and ')' in arg:
+            class_name, inst_id, attr_name, attr_val = self.extract_args(arg)
+            if inst_id:
+                inst_id = inst_id.strip("'").strip('"')
+            if attr_val:
+                attr_val = attr_val.strip("'").strip('"')
+            args_str = ' '.join([class_name, inst_id, attr_name, attr_val])
+            self.do_update(args_str)
         else:
             return super().default(arg)
 
-    def extract_class_and_id(self, arg):
+    def extract_args(self, arg):
         ''' Extracts class name and instance id from the argument '''
         tokens = arg.split('.')
         class_name = tokens[0].strip()
         the_rest = '.'.join(tokens[1:])
+        arg2, arg3 = '', ''
 
         if 'show(' in the_rest and ')' in the_rest:
             instance_id = the_rest.split('show(')[1].split(')')[0].strip()
@@ -230,8 +239,15 @@ class HBNBCommand(cmd.Cmd):
         if 'destroy(' in the_rest and ')' in the_rest:
             instance_id = the_rest.split('destroy(')[1].split(')')[0].strip()
             return class_name, instance_id
-
-        return None, None
+        if 'update(' in the_rest and ')' in the_rest:
+            args = the_rest.split('update(')[1].split(')')[0].split(',')
+            arg1 = args[0].strip()
+            if len(args) > 1:
+                arg2 = args[1].strip()
+                if len(args) > 2:
+                    arg3 = args[2].strip()
+            return class_name, arg1, arg2, arg3
+        return None, None, None, None
 
     def do_EOF(self, line):
         ''' exits the program '''
