@@ -46,11 +46,13 @@ class FileStorage():
     def extract_class(self, name=None):
         ''' extracts the class from the dictionary'''
         from models.base_model import BaseModel
+        from models.user import User
 
         if not name:
             return
         classes = {
-            "BaseModel": BaseModel
+            "BaseModel": BaseModel,
+            "User": User
         }
         try:
             return classes[name]
