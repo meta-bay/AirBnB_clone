@@ -47,12 +47,22 @@ class FileStorage():
         ''' extracts the class from the dictionary'''
         from models.base_model import BaseModel
         from models.user import User
+        from models.state import State
+        from models.amenity import Amenity
+        from models.city import City
+        from models.place import Place
+        from models.review import Review
 
         if not name:
             return
         classes = {
             "BaseModel": BaseModel,
-            "User": User
+            "User": User,
+            "State": State,
+            "Place": Place,
+            "City": City,
+            "Amenity": Amenity,
+            "Review": Review
         }
         try:
             return classes[name]
