@@ -205,6 +205,16 @@ class HBNBCommand(cmd.Cmd):
                 print(storage.all()[key])
             else:
                 print("** no instance found **")
+        elif '.' in arg and 'destroy(' in arg and ')' in arg:
+            class_name, instance_id = self.extract_class_and_id(arg)
+            instance_id = instance_id.strip("'").strip('"')
+            key = f"{class_name}.{instance_id}"
+
+            if key in storage.all():
+                del storage.all()[key]
+                storage.save()
+            else:
+                print("** no instance found **")
         else:
             return super().default(arg)
 
@@ -216,6 +226,9 @@ class HBNBCommand(cmd.Cmd):
 
         if 'show(' in the_rest and ')' in the_rest:
             instance_id = the_rest.split('show(')[1].split(')')[0].strip()
+            return class_name, instance_id
+        if 'destroy(' in the_rest and ')' in the_rest:
+            instance_id = the_rest.split('destroy(')[1].split(')')[0].strip()
             return class_name, instance_id
 
         return None, None
