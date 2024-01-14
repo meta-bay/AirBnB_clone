@@ -3,11 +3,12 @@
     console module
 '''
 import cmd
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
     ''' The console class '''
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
 
     def do_quit(self, line):
         ''' quit command to exit the program'''
@@ -18,9 +19,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, class_name):
         ''' Creates a new instance of BaseModel '''
-        the_model = class_name()
-        the_model.save()
-        print(the_model.id)
+        class_name.save()
+        print(class_name.id)
 
     def do_EOF(self, line):
         ''' exits the program '''
