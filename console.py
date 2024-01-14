@@ -168,6 +168,25 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** no instance found **")
 
+    def default(self, arg):
+        ''' the default excution '''
+        storage.reload()
+        obj_list = []
+        if '.' in arg and 'all()' in arg:
+            class_name = arg.split('.')[0].strip()
+            try:
+                my_object = eval(class_name)
+            except NameError:
+                print("** class doesn't exist **")
+                return
+
+            for key, value in storage.all().items():
+                if value.__class__ == my_object:
+                    obj_list.append(str(value))
+                    print(obj_list)
+        else:
+            return super().default(arg)
+
     def do_EOF(self, line):
         ''' exits the program '''
         return True
