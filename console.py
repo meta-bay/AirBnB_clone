@@ -196,8 +196,29 @@ class HBNBCommand(cmd.Cmd):
                 if value.__class__ == my_object:
                     count += 1
             print(count)
+        elif '.' in arg and 'show(' in arg and ')' in arg:
+            class_name, instance_id = self.extract_class_and_id(arg)
+            instance_id = instance_id.strip("'").strip('"')
+            key = f"{class_name}.{instance_id}"
+
+            if key in storage.all():
+                print(storage.all()[key])
+            else:
+                print("** no instance found **")
         else:
             return super().default(arg)
+
+    def extract_class_and_id(self, arg):
+        ''' Extracts class name and instance id from the argument '''
+        tokens = arg.split('.')
+        class_name = tokens[0].strip()
+        the_rest = '.'.join(tokens[1:])
+
+        if 'show(' in the_rest and ')' in the_rest:
+            instance_id = the_rest.split('show(')[1].split(')')[0].strip()
+            return class_name, instance_id
+
+        return None, None
 
     def do_EOF(self, line):
         ''' exits the program '''
