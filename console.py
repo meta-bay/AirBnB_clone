@@ -172,6 +172,7 @@ class HBNBCommand(cmd.Cmd):
         ''' the default excution '''
         storage.reload()
         obj_list = []
+        count = 0
         if '.' in arg and 'all()' in arg:
             class_name = arg.split('.')[0].strip()
             try:
@@ -184,6 +185,17 @@ class HBNBCommand(cmd.Cmd):
                 if value.__class__ == my_object:
                     obj_list.append(str(value))
                     print(obj_list)
+        elif '.' in arg and 'count()' in arg:
+            class_name = arg.split('.')[0].strip()
+            try:
+                my_object = eval(class_name)
+            except NameError:
+                print("** class doesn't exist **")
+                return
+            for key, value in storage.all().items():
+                if value.__class__ == my_object:
+                    count += 1
+            print(count)
         else:
             return super().default(arg)
 
