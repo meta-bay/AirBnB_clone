@@ -3,6 +3,7 @@
     console module
 '''
 import cmd
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
@@ -223,6 +224,18 @@ class HBNBCommand(cmd.Cmd):
                 attr_val = attr_val.strip("'").strip('"')
             args_str = ' '.join([class_name, inst_id, attr_name, attr_val])
             self.do_update(args_str)
+        elif self.check_input(arg):
+            pattern = r'^(\w+)\.update\(([^,]+), (\{.*\})\)$'
+            match = re.match(pattern, arg)
+            if match:
+                class_name = match.group(1)
+                inst_id = match.group(2)
+                attribute_dict_str = match.group(3)
+                the_dict = eval(attribute_dict_str)
+                attr_name = the_dict.key()
+                attr_val = the_dict.value()
+                args_str = ' '.join([class_name, inst_id, attr_name, attr_val])
+                self.do_update(args_str)
         else:
             return super().default(arg)
 
@@ -248,6 +261,11 @@ class HBNBCommand(cmd.Cmd):
                     arg3 = args[2].strip()
             return class_name, arg1, arg2, arg3
         return None, None, None, None
+
+    def check_input(self, arg):
+        ''' checks if they match '''
+        pattern = r'^\w+\.update\([^,]+, \{.*\}\)$'
+        return bool(re.match(pattern, arg))
 
     def do_EOF(self, line):
         ''' exits the program '''
