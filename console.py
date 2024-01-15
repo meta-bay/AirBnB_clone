@@ -227,12 +227,18 @@ class HBNBCommand(cmd.Cmd):
         elif self.check_input(arg):
             pattern = r'^(\w+)\.update\(([^,]+), (\{.*\})\)$'
             match = re.match(pattern, arg)
+            attr_name = ''
+            attr_val = ''
             if match:
                 class_name = match.group(1)
                 inst_id = match.group(2)
                 attribute_dict_str = match.group(3)
                 the_dict = eval(attribute_dict_str)
                 attr_name = the_dict.key()
+                if attr_name:
+                    attr_name = attr_name.strip("'")
+                if attr_name:
+                    attr_name.strip("'").strip("{").strip(":")
                 attr_val = the_dict.value()
                 args_str = ' '.join([class_name, inst_id, attr_name, attr_val])
                 self.do_update(args_str)
