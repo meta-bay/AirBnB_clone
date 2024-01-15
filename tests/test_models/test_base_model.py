@@ -16,45 +16,45 @@ class TestBaseModel(TestCase):
     """
 
     def test_pep(self):
-        """test pep"""
-        style = pycodestyle.StyleGuide(quiet=True)
-        result = style.check_files(['models/base_model.py',
-                                    'tests/test_models/test_base_model.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
+        """Test PEP 8 compliance"""
+        style_checker = pycodestyle.StyleGuide(quiet=True)
+        result = style_checker.check_files(
+            ['models/base_model.py', 'tests/test_models/test_base_model.py'])
+        self.assertEqual(
+            result.total_errors, 0, "Found code style errors (and warnings).")
 
     def test_module_doc(self):
-        """test module documentation"""
-        doc = __import__("models.base_model").__doc__
-        self.assertGreater(len(doc), 1)
+        """Test module documentation"""
+        module_doc = __import__("models.base_model").__doc__
+        self.assertGreater(len(module_doc), 1)
 
     def test_class_doc(self):
-        """test class documentation"""
-        doc = BaseModel.__doc__
-        self.assertGreater(len(doc), 1)
+        """Test class documentation"""
+        class_doc = BaseModel.__doc__
+        self.assertGreater(len(class_doc), 1)
 
     def test_init_doc(self):
-        """test init method documentation"""
-        doc = BaseModel.__init__.__doc__
-        self.assertGreater(len(doc), 1)
+        """Test init method documentation"""
+        init_doc = BaseModel.__init__.__doc__
+        self.assertGreater(len(init_doc), 1)
 
     def test_str_doc(self):
-        """test str functiom documentation"""
-        doc = BaseModel.__str__.__doc__
-        self.assertGreater(len(doc), 1)
+        """Test str function documentation"""
+        str_doc = BaseModel.__str__.__doc__
+        self.assertGreater(len(str_doc), 1)
 
     def test_save_doc(self):
-        """test save method documentation"""
-        doc = BaseModel.save.__doc__
-        self.assertGreater(len(doc), 1)
+        """Test save method documentation"""
+        save_doc = BaseModel.save.__doc__
+        self.assertGreater(len(save_doc), 1)
 
     def test_to_dict_doc(self):
-        """test to_dict method documentation"""
-        doc = BaseModel.to_dict.__doc__
-        self.assertGreater(len(doc), 1)
+        """Test to_dict method documentation"""
+        to_dict_doc = BaseModel.to_dict.__doc__
+        self.assertGreater(len(to_dict_doc), 1)
 
     def test_init(self):
-        """test init method"""
+        """Test init method"""
         obj = BaseModel()
 
         self.assertIsInstance(obj, BaseModel)
@@ -63,7 +63,7 @@ class TestBaseModel(TestCase):
         self.assertIsInstance(obj.created_at, datetime)
 
     def test_save(self):
-        """test save method"""
+        """Test save method"""
         obj = BaseModel()
         sleep(1)
 
@@ -72,7 +72,7 @@ class TestBaseModel(TestCase):
         self.assertEqual(obj.updated_at.replace(microsecond=0), now)
 
     def test_to_dict(self):
-        """test to_dict method"""
+        """Test to_dict method"""
         obj = BaseModel()
         obj.name = "Holberton"
         obj.my_number = 89
