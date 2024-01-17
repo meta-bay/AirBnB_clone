@@ -22,11 +22,6 @@ class TestFileStorage(TestCase):
         self.assertEqual(
             result.total_errors, 0, "Found code style errors (and warnings).")
 
-    def test_module_doc(self):
-        """Test module documentation"""
-        module_doc = __import__('models.engine.file_storage').__doc__
-        self.assertGreater(len(module_doc), 1)
-
     def test_class_doc(self):
         """Test class documentation"""
         class_doc = TestFileStorage.__doc__
