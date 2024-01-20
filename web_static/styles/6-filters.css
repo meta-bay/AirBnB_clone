@@ -26,7 +26,7 @@
     opacity: 90%;
 }
 
-.locations, .amenities {
+.locations, .filters .amenities {
     height: 100%;
     width: 25%;
     display: flex;
@@ -39,12 +39,12 @@
     border-right: 1px #DDDDDD solid;
 }
 
-.locations h3, .amenities h3 {
+.locations h3, .filters .amenities h3 {
     font-weight: 600;
     margin: 2px 40px;
 }
 
-.locations h4, .amenities h4 {
+.locations h4, .filters .amenities h4 {
     font-weight: 400;
     font-size: 14px;
     margin: 2px 40px;
