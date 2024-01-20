@@ -71,6 +71,7 @@
 
 .popover li {
     list-style-type: none;
+    margin-bottom: 4px;
 }
 
 div:hover > .popover {
